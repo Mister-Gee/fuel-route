@@ -1,0 +1,16 @@
+.venv/
+.env
+.claude/
+*.sqlite3
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.local/
+LOOM_SCRIPT.md
+loom.md
+LOOM.md
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,96 @@
+{
+  "info": {
+    "_postman_id": "a3b2c1d4-e5f6-4a7b-8c9d-e0f123456789",
+    "name": "Spotter Fuel Route API",
+    "description": "Local assessment requests. Start the Django server on 127.0.0.1:8000 first. No credential is included.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8000/api/v1/health/"
+      },
+      "response": []
+    },
+    {
+      "name": "Short coordinate route",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) { pm.environment.set('trip_id', pm.response.json().trip_id); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"start\":{\"latitude\":40.7128,\"longitude\":-74.0060},\"finish\":{\"latitude\":40.7357,\"longitude\":-74.1724}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://127.0.0.1:8000/api/v1/routes/optimize-fuel/"
+      },
+      "response": []
+    },
+    {
+      "name": "Long coordinate route",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) { pm.environment.set('trip_id', pm.response.json().trip_id); }"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"start\":{\"latitude\":40.7128,\"longitude\":-74.0060},\"finish\":{\"latitude\":41.8781,\"longitude\":-87.6298}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://127.0.0.1:8000/api/v1/routes/optimize-fuel/"
+      },
+      "response": []
+    },
+    {
+      "name": "Saved map",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8000/api/v1/routes/{{trip_id}}/map/"
+      },
+      "response": []
+    }
+  ]
+}

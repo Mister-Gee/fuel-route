@@ -1,0 +1,74 @@
+{
+  "info": {
+    "_postman_id": "a3b2c1d4-e5f6-4a7b-8c9d-e0f123456789",
+    "name": "Spotter Fuel Route API VSCode",
+    "description": "VSCode-safe version: no test scripts. Copy trip_id from route response into Saved map URL manually.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8000/api/v1/health/"
+      },
+      "response": []
+    },
+    {
+      "name": "Short coordinate route",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"start\":{\"latitude\":40.7128,\"longitude\":-74.0060},\"finish\":{\"latitude\":40.7357,\"longitude\":-74.1724}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://127.0.0.1:8000/api/v1/routes/optimize-fuel/"
+      },
+      "response": []
+    },
+    {
+      "name": "Long coordinate route",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"start\":{\"latitude\":40.7128,\"longitude\":-74.0060},\"finish\":{\"latitude\":41.8781,\"longitude\":-87.6298}}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": "http://127.0.0.1:8000/api/v1/routes/optimize-fuel/"
+      },
+      "response": []
+    },
+    {
+      "name": "Saved map - REPLACE TRIP_ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "http://127.0.0.1:8000/api/v1/routes/REPLACE_WITH_TRIP_ID/map/"
+      },
+      "response": []
+    }
+  ]
+}

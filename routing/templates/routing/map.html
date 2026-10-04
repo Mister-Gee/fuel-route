@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fuel route map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <style>body{font:16px system-ui;margin:0}header{padding:1rem}#map{height:75vh;min-height:320px}.note{font-size:.85rem;color:#333}</style>
+</head>
+<body>
+  <header><h1>Fuel route</h1><p id="summary"></p><p class="note">Route: OSRM/OpenStreetMap contributors. Map tiles: © OpenStreetMap contributors. Available accepted stations only; driving profile is car.</p></header>
+  <div id="map" role="img" aria-label="Driving route with start, finish, and fuel stop markers"></div>
+  {{ trip|json_script:"trip-data" }}
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script>
+    const trip = JSON.parse(document.getElementById('trip-data').textContent);
+    const map = L.map('map');
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    }).addTo(map);
+    const route = L.geoJSON(trip.route.geometry, {style: {color: '#1262a2', weight: 5}}).addTo(map);
+    map.fitBounds(route.getBounds(), {padding: [24, 24]});
+    function marker(lat, lon, label) {
+      const node = document.createElement('div');
+      node.textContent = label;
+      L.marker([lat, lon]).addTo(map).bindPopup(node);
+    }
+    marker(trip.start.latitude, trip.start.longitude, 'Start');
+    marker(trip.finish.latitude, trip.finish.longitude, 'Finish');
+    for (const stop of trip.fuel_stops) {
+      marker(stop.latitude, stop.longitude, `OPIS ${stop.opis_id}: ${stop.gallons} gal at $${stop.price}/gal`);
+    }
+    document.getElementById('summary').textContent = `${trip.route.distance_miles.toFixed(1)} miles · $${trip.summary.purchase_cost} in purchased fuel`;
+  </script>
+</body>
+</html>
